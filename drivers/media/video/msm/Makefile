@@ -41,15 +41,15 @@ obj-$(CONFIG_VB6801) += vb6801.o
 obj-$(CONFIG_OV8810) += ov8810.o
 obj-$(CONFIG_IMX105) += imx105.o imx105_reg.o
 obj-$(CONFIG_SP3D) += sp3d.o sp3d_reg_3d.o sp3d_reg_2d.o sp3d_reg_com.o sp3d_reg_cal.o
-#ifdef CONFIG_MACH_SUPERSONIC
-#obj-$(CONFIG_S5K3H1GX) += s5k3h1gx_suc.o s5k3h1gx_reg_suc.o
-#else
-#ifdef CONFIG_MACH_PYRAMID
-#obj-$(CONFIG_S5K3H1GX) += s5k3h1gx_pyd.o s5k3h1gx_reg_pyd.o
-#else
-#obj-$(CONFIG_S5K3H1GX) += s5k3h1gx.o s5k3h1gx_reg.o
-#endif
-#endif
+ifdef CONFIG_MACH_SUPERSONIC
+obj-$(CONFIG_S5K3H1GX) += s5k3h1gx_suc.o s5k3h1gx_reg_suc.o
+else
+ifdef CONFIG_MACH_PYRAMID
+obj-$(CONFIG_S5K3H1GX) += s5k3h1gx_pyd.o s5k3h1gx_reg_pyd.o
+else
+obj-$(CONFIG_S5K3H1GX) += s5k3h1gx.o s5k3h1gx_reg.o
+endif
+endif
 ifdef CONFIG_MACH_DOUBLESHOT
 obj-$(CONFIG_S5K3H2YX) += s5k3h2yx.o s5k3h2yx_reg_dot.o
 else

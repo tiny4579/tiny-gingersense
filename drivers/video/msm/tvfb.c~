@@ -196,7 +196,7 @@ static void tvfb_refresh_req(struct tvfb_info *tvfb)
 {
 	unsigned orient;
 	unsigned x, y, w, h;
-	unsigned tv_yoffset, tv_height, src_yoffset = 0;
+	unsigned tv_yoffset, tv_height, src_yoffset;
 	unsigned src_format;
 	struct fb_info *src_fb = registered_fb[0];
 

@@ -30,7 +30,6 @@
 
 #include <linux/msm_rpcrouter.h>
 #include <linux/uaccess.h>
-#include <linux/slab.h>
 
 #include <mach/msm_rpcrouter.h>
 #include "smd_rpcrouter.h"

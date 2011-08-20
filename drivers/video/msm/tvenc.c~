@@ -318,7 +318,8 @@ static void tvenc_dma_start(void *priv, uint32_t addr, uint32_t stride,
 static void tvenc_detect_work_func(struct work_struct *work)
 {
 	int value;
-	struct tvenc_info *tvenc= container_of(work, struct tvenc_info, detect_delay_work);
+	struct tvenc_info *tvenc= container_of(work, struct tvenc_info,
+			detect_delay_work);
 
 	value = gpio_get_value(82);
 	printk("%s, TV-detection GPIO=%d\n", __func__, value);

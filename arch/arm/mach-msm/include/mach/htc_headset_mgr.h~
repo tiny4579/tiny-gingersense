@@ -169,6 +169,7 @@ enum {
 };
 
 enum {
+	H2W_UART3		= 2,
 	H2W_NO_HEADSET		= 0,
 	H2W_HEADSET		= 1,
 	H2W_35MM_HEADSET	= 2,

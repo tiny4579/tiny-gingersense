@@ -71,7 +71,7 @@ config CPU_FREQ_DEFAULT_GOV_PERFORMANCE
 
 config CPU_FREQ_DEFAULT_GOV_POWERSAVE
 	bool "powersave"
-	depends on EXPERT
+	depends on EMBEDDED
 	select CPU_FREQ_GOV_POWERSAVE
 	help
 	  Use the CPUFreq governor 'powersave' as default. This sets
@@ -119,13 +119,6 @@ config CPU_FREQ_DEFAULT_GOV_INTERACTIVE
 	  you to get a full dynamic cpu frequency capable system by simply
 	  loading your cpufreq low-level hardware driver, using the
 	  'interactive' governor for latency-sensitive workloads.
-
-config CPU_FREQ_DEFAULT_GOV_SMARTASS
-        bool "smartass"
-        select CPU_FREQ_GOV_SMARTASS
-        select CPU_FREQ_GOV_PERFORMANCE
-        help
-          Use the CPUFreq governor 'smartass' as default.
 
 endchoice
 
@@ -212,21 +205,5 @@ config CPU_FREQ_GOV_CONSERVATIVE
 	  For details, take a look at linux/Documentation/cpu-freq.
 
 	  If in doubt, say N.
-
-config CPU_FREQ_GOV_SMARTASS
-        tristate "'smartass' cpufreq governor"
-        depends on CPU_FREQ
-        help
-          'smartass' - a "smart" optimized governor for the hero!
-
-          If in doubt, say N.
-
-config CPU_FREQ_VDD_LEVELS
-	bool "CPU Vdd levels sysfs interface"
-	depends on CPU_FREQ_STAT
-	depends on ARCH_QSD8X50
-	default n
-	help
-	  CPU Vdd levels sysfs interface
 
 endif	# CPU_FREQ
