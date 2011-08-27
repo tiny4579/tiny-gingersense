@@ -262,7 +262,7 @@ static struct capella_cm3602_platform_data capella_cm3602_pdata = {
 static struct htc_headset_microp_platform_data htc_headset_microp_data = {
 	.remote_int		= 1 << 5,
 	.remote_irq		= MSM_uP_TO_INT(5),
-	.remote_enable_pin	= NULL,
+	.remote_enable_pin	= 0,
 	.adc_channel		= 0x01,
 	.adc_remote		= {0, 33, 50, 110, 160, 220},
 };
@@ -869,8 +869,8 @@ static struct platform_device htc_headset_mgr = {
 
 static struct htc_headset_gpio_platform_data htc_headset_gpio_data = {
 	.hpin_gpio		= INCREDIBLEC_GPIO_35MM_HEADSET_DET,
-	.key_enable_gpio	= NULL,
-	.mic_select_gpio	= NULL,
+	.key_enable_gpio	= 0,
+	.mic_select_gpio	= 0,
 };
 
 static struct platform_device htc_headset_gpio = {

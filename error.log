@@ -1,6 +1,3 @@
-arch/arm/mach-msm/board-incrediblec.c:265: warning: initialization makes integer from pointer without a cast
-arch/arm/mach-msm/board-incrediblec.c:872: warning: initialization makes integer from pointer without a cast
-arch/arm/mach-msm/board-incrediblec.c:873: warning: initialization makes integer from pointer without a cast
 arch/arm/mach-msm/board-incrediblec.c:759: warning: 'set_h2w_dat' defined but not used
 arch/arm/mach-msm/board-incrediblec.c:764: warning: 'set_h2w_clk' defined but not used
 arch/arm/mach-msm/board-incrediblec.c:769: warning: 'get_h2w_dat' defined but not used
@@ -9,76 +6,6 @@ arch/arm/mach-msm/board-incrediblec.c:779: warning: 'h2w_dev_power_on' defined b
 arch/arm/mach-msm/board-incrediblec.c:804: warning: 'set_h2w_dat_dir' defined but not used
 arch/arm/mach-msm/board-incrediblec.c:821: warning: 'set_h2w_clk_dir' defined but not used
 arch/arm/mach-msm/board-incrediblec.c:841: warning: 'h2w_configure' defined but not used
-drivers/media/video/msm/s5k3h1gx.c:140: error: array type has incomplete element type
-drivers/media/video/msm/s5k3h1gx.c:512: warning: 'struct fps_cfg' declared inside parameter list
-drivers/media/video/msm/s5k3h1gx.c:512: warning: its scope is only this definition or declaration, which is probably not what you want
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_set_fps':
-drivers/media/video/msm/s5k3h1gx.c:515: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c:516: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c:517: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_write_exp_gain':
-drivers/media/video/msm/s5k3h1gx.c:555: error: 'SENSOR_PREVIEW_MODE' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:555: error: (Each undeclared identifier is reported only once
-drivers/media/video/msm/s5k3h1gx.c:555: error: for each function it appears in.)
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_set_sensor_mode':
-drivers/media/video/msm/s5k3h1gx.c:836: error: 'SENSOR_PREVIEW_MODE' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:840: error: 'SENSOR_SNAPSHOT_MODE' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:844: error: 'SENSOR_RAW_SNAPSHOT_MODE' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c: At top level:
-drivers/media/video/msm/s5k3h1gx.c:993: warning: 'struct sensor_cfg_data' declared inside parameter list
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_i2c_read_fuseid':
-drivers/media/video/msm/s5k3h1gx.c:1046: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c:1047: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c:1048: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c:1049: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c:1057: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c:1059: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c:1061: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c:1063: error: dereferencing pointer to incomplete type
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_sensor_open_init':
-drivers/media/video/msm/s5k3h1gx.c:1082: error: implicit declaration of function 'kzalloc'
-drivers/media/video/msm/s5k3h1gx.c:1082: warning: assignment makes pointer from integer without a cast
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_i2c_probe':
-drivers/media/video/msm/s5k3h1gx.c:1162: warning: assignment makes pointer from integer without a cast
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_i2c_remove':
-drivers/media/video/msm/s5k3h1gx.c:1189: error: implicit declaration of function 'kfree'
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_move_focus':
-drivers/media/video/msm/s5k3h1gx.c:1317: error: 'MOVE_NEAR' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1319: error: 'MOVE_FAR' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_set_default_focus':
-drivers/media/video/msm/s5k3h1gx.c:1435: error: 'MOVE_FAR' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_preview_skip_frame':
-drivers/media/video/msm/s5k3h1gx.c:1457: error: 'SENSOR_PREVIEW_MODE' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c: In function 's5k3h1gx_sensor_config':
-drivers/media/video/msm/s5k3h1gx.c:1467: error: storage size of 'cdata' isn't known
-drivers/media/video/msm/s5k3h1gx.c:1472: error: invalid application of 'sizeof' to incomplete type 'struct sensor_cfg_data' 
-drivers/media/video/msm/s5k3h1gx.c:1480: error: 'CFG_GET_PICT_FPS' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1487: error: invalid application of 'sizeof' to incomplete type 'struct sensor_cfg_data' 
-drivers/media/video/msm/s5k3h1gx.c:1491: error: 'CFG_GET_PREV_L_PF' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1497: error: invalid application of 'sizeof' to incomplete type 'struct sensor_cfg_data' 
-drivers/media/video/msm/s5k3h1gx.c:1501: error: 'CFG_GET_PREV_P_PL' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1507: error: invalid application of 'sizeof' to incomplete type 'struct sensor_cfg_data' 
-drivers/media/video/msm/s5k3h1gx.c:1511: error: 'CFG_GET_PICT_L_PF' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1517: error: invalid application of 'sizeof' to incomplete type 'struct sensor_cfg_data' 
-drivers/media/video/msm/s5k3h1gx.c:1521: error: 'CFG_GET_PICT_P_PL' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1527: error: invalid application of 'sizeof' to incomplete type 'struct sensor_cfg_data' 
-drivers/media/video/msm/s5k3h1gx.c:1531: error: 'CFG_GET_PICT_MAX_EXP_LC' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1537: error: invalid application of 'sizeof' to incomplete type 'struct sensor_cfg_data' 
-drivers/media/video/msm/s5k3h1gx.c:1541: error: 'CFG_SET_FPS' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1542: error: 'CFG_SET_PICT_FPS' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1546: error: 'CFG_SET_EXP_GAIN' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1552: error: 'CFG_SET_PICT_EXP_GAIN' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1558: error: 'CFG_SET_MODE' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1563: error: 'CFG_PWR_DOWN' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1567: error: 'CFG_MOVE_FOCUS' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1574: error: 'CFG_SET_DEFAULT_FOCUS' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1579: error: 'CFG_I2C_IOCTL_R_OTP' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1582: error: invalid application of 'sizeof' to incomplete type 'struct sensor_cfg_data' 
-drivers/media/video/msm/s5k3h1gx.c:1588: error: 'CFG_SET_QCT_LSC_RAW_CAPTURE' undeclared (first use in this function)
-drivers/media/video/msm/s5k3h1gx.c:1467: warning: unused variable 'cdata'
-make[4]: *** [drivers/media/video/msm/s5k3h1gx.o] Error 1
-make[3]: *** [drivers/media/video/msm] Error 2
-make[2]: *** [drivers/media/video] Error 2
-make[1]: *** [drivers/media] Error 2
-make: *** [drivers] Error 2
-make: *** Waiting for unfinished jobs....
+drivers/video/msm/tvenc.c: In function 'tvenc_detect_work_func':
+drivers/video/msm/tvenc.c:321: warning: initialization from incompatible pointer type
+drivers/video/msm/tvenc.c:321: warning: unused variable 'tvenc'
