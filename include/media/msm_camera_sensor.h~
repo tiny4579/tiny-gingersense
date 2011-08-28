@@ -135,14 +135,6 @@ struct fuse_id{
 	uint32_t fuse_id_word4;
 };
 
-struct reg_addr_val_pair_struct {
-	uint16_t reg_addr;
-	uint8_t reg_val;
-};
-
-struct lsc_cfg{
-	struct reg_addr_val_pair_struct lsc_table[150]; /*OV LSC table*/
-};
 
 // For 2nd CAM (mt9v113)
 enum antibanding_mode{
