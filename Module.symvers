@@ -3192,7 +3192,6 @@
 0x00000000	udplite_table	vmlinux	EXPORT_SYMBOL
 0x00000000	tc_classify_compat	vmlinux	EXPORT_SYMBOL
 0x00000000	blk_queue_max_segment_size	vmlinux	EXPORT_SYMBOL
-0x00000000	jbd2_journal_enable_debug	vmlinux	EXPORT_SYMBOL
 0x00000000	klist_add_tail	vmlinux	EXPORT_SYMBOL_GPL
 0x00000000	dev_kfree_skb_irq	vmlinux	EXPORT_SYMBOL
 0x00000000	dm_table_get_size	vmlinux	EXPORT_SYMBOL
