@@ -15,10 +15,15 @@
  */
 
 #include <linux/gpio.h>
+#include <linux/err.h>
 #include <linux/delay.h>
+#include <linux/kobject.h>
+#include <linux/sysfs.h>
+
 #include <mach/msm_qdsp6_audio.h>
 #include <mach/htc_acoustic_qsd.h>
 #include <mach/tpa6130.h>
+#include <mach/vreg.h>
 
 #include "board-incrediblec.h"
 #include "proc_comm.h"
@@ -30,39 +35,87 @@
 #define D(fmt, args...) do {} while (0)
 #endif
 
+static int aboost;
+
 static struct mutex mic_lock;
 static struct mutex bt_sco_lock;
 static int headset_status = 0;
 
-struct q6_gain_info {
-        int max_step;
-        int gain[10];
+static ssize_t aboost_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
+	{
+		return sprintf(buf, "%d\n", aboost);
+	}
+
+static ssize_t aboost_store(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count)
+	{
+		sscanf(buf, "%du", &aboost);
+		return count;
+	}
+
+
+static struct kobj_attribute aboost_attribute =
+                __ATTR(aboost, 0666, aboost_show, aboost_store);
+
+static struct attribute *attrs[] = {
+	&aboost_attribute.attr,
+	NULL,
 };
 
-static struct q6_gain_info q6_audio_hw[Q6_HW_COUNT] = {
+static struct attribute_group attr_group = {
+	.attrs = attrs,
+};
+
+static struct q6_hw_info q6_audio_hw_aboost[Q6_HW_COUNT] = {
 	[Q6_HW_HANDSET] = {
-		.max_step = 6,
-		.gain = {-1600, -1300, -1000, -600, -300, 0, 0, 0, 0, 0},
+		.min_gain = -1500,
+		.max_gain = 1199,
 	},
 	[Q6_HW_HEADSET] = {
-		.max_step = 6,
-		.gain = {-2000, -1600, -1200, -800, -400, 0, 0, 0, 0, 0},
+		.min_gain = -2000,
+		.max_gain = 1199,
 	},
 	[Q6_HW_SPEAKER] = {
-		.max_step = 6,
-		.gain = {-1500, -1200, -900, -600, -300, 0, 0, 0, 0, 0},
+		.min_gain = -1100,
+		.max_gain = 400,
 	},
 	[Q6_HW_TTY] = {
-		.max_step = 6,
-		.gain = {-2000, -1600, -1200, -800, -400, 0, 0, 0, 0, 0},
+		.min_gain = -2000,
+		.max_gain = 0,
 	},
 	[Q6_HW_BT_SCO] = {
-		.max_step = 6,
-		.gain = {-2000, -1600, -1200, -800, -400, 0, 0, 0, 0, 0},
+		.min_gain = -2000,
+		.max_gain = 0,
 	},
 	[Q6_HW_BT_A2DP] = {
-		.max_step = 6,
-		.gain = {-2000, -1600, -1200, -800, -400, 0, 0, 0, 0, 0},
+		.min_gain = -2000,
+		.max_gain = 0,
+	},
+};
+
+static struct q6_hw_info q6_audio_hw_noaboost[Q6_HW_COUNT] = {
+	[Q6_HW_HANDSET] = {
+		.min_gain = -2000,
+		.max_gain = 0,
+	},
+	[Q6_HW_HEADSET] = {
+		.min_gain = -2000,
+		.max_gain = 0,
+	},
+	[Q6_HW_SPEAKER] = {
+		.min_gain = -1500,
+		.max_gain = 0,
+	},
+	[Q6_HW_TTY] = {
+		.min_gain = -2000,
+		.max_gain = 0,
+	},
+	[Q6_HW_BT_SCO] = {
+		.min_gain = -2000,
+		.max_gain = 0,
+	},
+	[Q6_HW_BT_A2DP] = {
+		.min_gain = -2000,
+		.max_gain = 0,
 	},
 };
 
@@ -90,16 +143,13 @@ void incrediblec_speaker_enable(int en)
 
 	D("%s %d\n", __func__, en);
 	if (en) {
-		mdelay(30);
 		scm.is_right_chan_en = 0;
 		scm.is_left_chan_en = 1;
 		scm.is_stereo_en = 0;
 		scm.is_hpf_en = 1;
 		pmic_spkr_en_mute(LEFT_SPKR, 0);
-		pmic_spkr_en_mute(RIGHT_SPKR, 0);
 		pmic_set_spkr_configuration(&scm);
 		pmic_spkr_en(LEFT_SPKR, 1);
-		pmic_spkr_en(RIGHT_SPKR, 0);
 
 		/* unmute */
 		pmic_spkr_en_mute(LEFT_SPKR, 1);
@@ -107,31 +157,26 @@ void incrediblec_speaker_enable(int en)
 		pmic_spkr_en_mute(LEFT_SPKR, 0);
 
 		pmic_spkr_en(LEFT_SPKR, 0);
-		pmic_spkr_en(RIGHT_SPKR, 0);
 
 		pmic_set_spkr_configuration(&scm);
 	}
-	mdelay(10);
 }
 
 void incrediblec_receiver_enable(int en)
 {
-	/* After XC */
-	if (system_rev >= 2) {
+	/* After XB*/
+	if (system_rev >= 1) {
 		struct spkr_config_mode scm;
 		memset(&scm, 0, sizeof(scm));
 
 		D("%s %d\n", __func__, en);
 		if (en) {
-			mdelay(30);
 			scm.is_right_chan_en = 1;
 			scm.is_left_chan_en = 0;
 			scm.is_stereo_en = 0;
 			scm.is_hpf_en = 1;
-			pmic_spkr_en_mute(LEFT_SPKR, 0);
 			pmic_spkr_en_mute(RIGHT_SPKR, 0);
 			pmic_set_spkr_configuration(&scm);
-			pmic_spkr_en(LEFT_SPKR, 0);
 			pmic_spkr_en(RIGHT_SPKR, 1);
 
 			/* unmute */
@@ -139,24 +184,22 @@ void incrediblec_receiver_enable(int en)
 		} else {
 			pmic_spkr_en_mute(RIGHT_SPKR, 0);
 
-			pmic_spkr_en(LEFT_SPKR, 0);
 			pmic_spkr_en(RIGHT_SPKR, 0);
 
 			pmic_set_spkr_configuration(&scm);
 		}
-		mdelay(10);
 	}
 }
 
 static uint32_t bt_sco_enable[] = {
-	PCOM_GPIO_CFG(INCREDIBLEC_BT_PCM_OUT, 1, GPIO_OUTPUT,
-			GPIO_NO_PULL, GPIO_2MA),
+	PCOM_GPIO_CFG(INCREDIBLEC_BT_PCM_OUT, 1, GPIO_INPUT,
+			GPIO_PULL_DOWN, GPIO_2MA),
 	PCOM_GPIO_CFG(INCREDIBLEC_BT_PCM_IN, 1, GPIO_INPUT,
-			GPIO_NO_PULL, GPIO_2MA),
+			GPIO_PULL_DOWN, GPIO_2MA),
 	PCOM_GPIO_CFG(INCREDIBLEC_BT_PCM_SYNC, 2, GPIO_INPUT,
-			GPIO_NO_PULL, GPIO_2MA),
+			GPIO_PULL_DOWN, GPIO_2MA),
 	PCOM_GPIO_CFG(INCREDIBLEC_BT_PCM_CLK, 2, GPIO_INPUT,
-			GPIO_NO_PULL, GPIO_2MA),
+			GPIO_PULL_DOWN, GPIO_2MA),
 };
 
 static uint32_t bt_sco_disable[] = {
@@ -182,11 +225,10 @@ void incrediblec_bt_sco_enable(int en)
 					ARRAY_SIZE(bt_sco_enable));
 	} else {
 		if (--bt_sco_refcount == 0) {
-			config_gpio_table(bt_sco_disable,
-					ARRAY_SIZE(bt_sco_disable));
+			config_gpio_table(bt_sco_disable, ARRAY_SIZE(bt_sco_disable));
 			gpio_set_value(INCREDIBLEC_BT_PCM_OUT, 0);
-			gpio_set_value(INCREDIBLEC_BT_PCM_SYNC, 0);
-			gpio_set_value(INCREDIBLEC_BT_PCM_CLK, 0);
+			gpio_set_value(INCREDIBLEC_BT_PCM_SYNC,0);
+			gpio_set_value(INCREDIBLEC_BT_PCM_CLK,0);
 		}
 	}
 	mutex_unlock(&bt_sco_lock);
@@ -213,9 +255,9 @@ void incrediblec_ext_mic_enable(int en)
 	else
 		new_state--;
 
-	if (new_state == 1 && old_state == 0)
+	if (new_state == 1 && old_state == 0) {
 		gpio_set_value(INCREDIBLEC_AUD_2V5_EN, 1);
-	else if (new_state == 0 && old_state == 1)
+	} else if (new_state == 0 && old_state == 1)
 		gpio_set_value(INCREDIBLEC_AUD_2V5_EN, 0);
 	else
 		D("%s: do nothing %d %d\n", __func__, old_state, new_state);
@@ -229,7 +271,7 @@ void incrediblec_analog_init(void)
 	D("%s\n", __func__);
 	/* stereo pmic init */
 	pmic_spkr_set_gain(LEFT_SPKR, SPKR_GAIN_PLUS12DB);
-	pmic_spkr_set_gain(RIGHT_SPKR, SPKR_GAIN_PLUS12DB);
+	pmic_spkr_set_gain(RIGHT_SPKR, SPKR_GAIN_00DB);
 	pmic_spkr_en_right_chan(OFF_CMD);
 	pmic_spkr_en_left_chan(OFF_CMD);
 	pmic_spkr_add_right_left_chan(OFF_CMD);
@@ -242,26 +284,30 @@ void incrediblec_analog_init(void)
 	pmic_mic_set_volt(MIC_VOLT_1_80V);
 	pmic_set_speaker_delay(SPKR_DLY_100MS);
 
+	gpio_request(INCREDIBLEC_AUD_JACKHP_EN, "aud_jackhp_en");
 	gpio_direction_output(INCREDIBLEC_AUD_JACKHP_EN, 1);
 	gpio_set_value(INCREDIBLEC_AUD_JACKHP_EN, 0);
 
 	mutex_lock(&bt_sco_lock);
-	config_gpio_table(bt_sco_disable,
-			ARRAY_SIZE(bt_sco_disable));
+	config_gpio_table(bt_sco_disable, ARRAY_SIZE(bt_sco_disable));
 	gpio_set_value(INCREDIBLEC_BT_PCM_OUT, 0);
+	gpio_set_value(INCREDIBLEC_BT_PCM_SYNC,0);
+	gpio_set_value(INCREDIBLEC_BT_PCM_CLK,0);
 	mutex_unlock(&bt_sco_lock);
 }
 
 int incrediblec_get_rx_vol(uint8_t hw, int level)
 {
-	struct q6_gain_info *info;
+	struct q6_hw_info *info;
 	int vol;
 
-	info = &q6_audio_hw[hw];
-
-	level = (level > 100)? 100 : ((level < 0) ? 0 : level);
-	vol = info->gain[(uint32_t)((info->max_step - 1) * level / 100)];
-
+if (aboost == 0) {
+	info = &q6_audio_hw_noaboost[hw];
+} else {
+	info = &q6_audio_hw_aboost[hw];
+}
+ 
+	vol = info->min_gain + ((info->max_gain - info->min_gain) * level) / 100;
 	D("%s %d\n", __func__, vol);
 	return vol;
 }
@@ -281,14 +327,36 @@ static struct q6audio_analog_ops ops = {
 	.get_rx_vol = incrediblec_get_rx_vol,
 };
 
+static struct kobject *aboost_kobj;
+
+int aboost_init(void)
+{
+	int retval;
+
+	aboost_kobj = kobject_create_and_add("audio_boost", kernel_kobj);
+		if (!aboost_kobj) {
+			return -ENOMEM;
+		}
+	retval = sysfs_create_group(aboost_kobj, &attr_group);
+	if (retval)
+		kobject_put(aboost_kobj);
+	return retval;
+}
+
+void aboost_exit(void)
+{
+        kobject_put(aboost_kobj);
+}
+
 void __init incrediblec_audio_init(void)
 {
 	mutex_init(&mic_lock);
 	mutex_init(&bt_sco_lock);
-#if defined(CONFIG_QSD_AUDIO)
 	q6audio_register_analog_ops(&ops);
-#endif
 	acoustic_register_ops(&acoustic);
-	if (system_rev == 2 && incrediblec_get_engineerid() < 4)
-		q6audio_set_acdb_file("default_PMIC.acdb");
+	aboost = 1;
 }
+
+module_init(aboost_init);
+module_exit(aboost_exit);
+

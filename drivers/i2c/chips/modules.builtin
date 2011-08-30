@@ -1,0 +1,4 @@
+kernel/drivers/i2c/chips/akm8973.ko
+kernel/drivers/i2c/chips/tpa6130.ko
+kernel/drivers/i2c/chips/tpa2018d1.ko
+kernel/drivers/i2c/chips/smb329.ko
