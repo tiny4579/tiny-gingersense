@@ -1,7 +1,3 @@
-scripts/kconfig/conf.c: In function ‘conf_sym’:
-scripts/kconfig/conf.c:159:6: warning: variable ‘type’ set but not used [-Wunused-but-set-variable]
-scripts/kconfig/conf.c: In function ‘conf_choice’:
-scripts/kconfig/conf.c:231:6: warning: variable ‘type’ set but not used [-Wunused-but-set-variable]
 arch/arm/mach-msm/board-incrediblec.c:759: warning: 'set_h2w_dat' defined but not used
 arch/arm/mach-msm/board-incrediblec.c:764: warning: 'set_h2w_clk' defined but not used
 arch/arm/mach-msm/board-incrediblec.c:769: warning: 'get_h2w_dat' defined but not used
@@ -10,6 +6,13 @@ arch/arm/mach-msm/board-incrediblec.c:779: warning: 'h2w_dev_power_on' defined b
 arch/arm/mach-msm/board-incrediblec.c:804: warning: 'set_h2w_dat_dir' defined but not used
 arch/arm/mach-msm/board-incrediblec.c:821: warning: 'set_h2w_clk_dir' defined but not used
 arch/arm/mach-msm/board-incrediblec.c:841: warning: 'h2w_configure' defined but not used
+drivers/i2c/chips/smb329.c:33: warning: data definition has no type or storage class
+drivers/i2c/chips/smb329.c:33: warning: type defaults to 'int' in declaration of 'I2C_CLIENT_INSMOD_1'
+drivers/i2c/chips/smb329.c:33: warning: parameter names (without types) in function declaration
+drivers/i2c/chips/smb329.c: In function 'smb329_remove':
+drivers/i2c/chips/smb329.c:272: warning: unused variable 'idx'
+drivers/i2c/chips/smb329.c: At top level:
+drivers/i2c/chips/smb329.c:237: warning: 'smb329_detect' defined but not used
 drivers/media/video/msm/ov8810.c:2701: warning: 'ov8810_vreg_disable' defined but not used
 drivers/video/msm/tvenc.c: In function 'tvenc_detect_work_func':
 drivers/video/msm/tvenc.c:321: warning: initialization from incompatible pointer type

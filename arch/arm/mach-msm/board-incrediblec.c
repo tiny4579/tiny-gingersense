@@ -72,7 +72,7 @@
 extern unsigned char *get_bt_bd_ram(void);
 #endif
 
-void msm_init_pmic_vibrator(void);
+void msm_init_pmic_vibrator(int);
 extern void __init incrediblec_audio_init(void);
 #ifdef CONFIG_MICROP_COMMON
 void __init incrediblec_microp_init(void);
@@ -1674,7 +1674,7 @@ static void __init incrediblec_init(void)
 	if (!properties_kobj || ret)
 		pr_err("failed to create board_properties\n");
 
-	msm_init_pmic_vibrator();
+	msm_init_pmic_vibrator(3000);
 
 }
 

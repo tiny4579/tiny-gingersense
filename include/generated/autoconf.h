@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.35.10
- * Mon Aug 29 22:13:01 2011
+ * Wed Aug 31 20:45:15 2011
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_NF_CONNTRACK_H323 1
@@ -435,7 +435,7 @@
 #define CONFIG_MSM_CAMERA 1
 #define CONFIG_DEBUG_KERNEL 1
 #define CONFIG_COMPAT_BRK 1
-#define CONFIG_LOCALVERSION "-gingertiny-b5"
+#define CONFIG_LOCALVERSION "-gingertiny_083111"
 #define CONFIG_CRYPTO 1
 #define CONFIG_SCHED_DEBUG 1
 #define CONFIG_LEDS_GPIO_PLATFORM 1
@@ -465,7 +465,6 @@
 #define CONFIG_INET6_IPCOMP 1
 #define CONFIG_ANDROID_RAM_CONSOLE 1
 #define CONFIG_IPV6_TUNNEL 1
-#define CONFIG_LOCALVERSION_AUTO 1
 #define CONFIG_MISC_FILESYSTEMS 1
 #define CONFIG_FTRACE 1
 #define CONFIG_NETFILTER_XT_MATCH_CONNLIMIT 1
