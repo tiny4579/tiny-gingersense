@@ -433,13 +433,16 @@ void __init acpu_freq_tbl_fixup(void)
 		goto skip_efuse_fixup;
 	}
 
-	switch (tcsr_spare2 & 0xF0) {
+	/* Override the fixup because we're overclocking */
+	max_acpu_khz = 1113600;
+
+	/*switch (tcsr_spare2 & 0xF0) {
 	case 0x70:
 		max_acpu_khz = 768000;
 		break;
 	case 0x30:
 	case 0x00:
-		max_acpu_khz = 1113600;
+		max_acpu_khz = 998400;
 		break;
 	case 0x10:
 		max_acpu_khz = 1267200;
@@ -448,9 +451,9 @@ void __init acpu_freq_tbl_fixup(void)
 		pr_warning("Invalid efuse data (%x) on Max ACPU freq!\n",
 			tcsr_spare2);
 		goto skip_efuse_fixup;
-	}
+	}*/
 
-	pr_info("Max ACPU freq from efuse data is %d KHz\n", max_acpu_khz);
+	/*pr_info("Max ACPU freq from efuse data is %d KHz\n", max_acpu_khz);*/
 
 	for (i = 0; acpu_freq_tbl[i].acpu_khz != 0; i++) {
 		if (acpu_freq_tbl[i].acpu_khz > max_acpu_khz) {
@@ -484,12 +487,12 @@ static void __init acpuclk_init(void)
 		BUG();
 	}
 
-	/* Move to 998MHz for boot, which is a safe frequency
-	 * for all versions of Incredible at the moment.
+	/* Move to 806MHz for boot, which is a safe frequency
+	 * for all versions of Scorpion at the moment.
 	 */
 	speed = acpu_freq_tbl;
 	for (;;) {
-		if (speed->acpu_khz == 998400)
+		if (speed->acpu_khz == 806400)
 			break;
 		if (speed->acpu_khz == 0) {
 			pr_err("acpuclk_init: cannot find 998MHz\n");
@@ -570,8 +573,8 @@ void __init msm_acpu_clock_init(struct msm_acpu_clock_platform_data *clkdata)
 	drv_state.power_collapse_khz = clkdata->power_collapse_khz;
 	drv_state.wait_for_irq_khz = clkdata->wait_for_irq_khz;
 
-	if (clkdata->mpll_khz)
-		acpu_mpll->acpu_khz = clkdata->mpll_khz;
+	//if (clkdata->mpll_khz)
+	//	acpu_mpll->acpu_khz = clkdata->mpll_khz;
 
 	acpu_freq_tbl_fixup();
 	acpuclk_init();
