@@ -1,3 +1,7 @@
+scripts/kconfig/conf.c: In function ‘conf_sym’:
+scripts/kconfig/conf.c:159:6: warning: variable ‘type’ set but not used [-Wunused-but-set-variable]
+scripts/kconfig/conf.c: In function ‘conf_choice’:
+scripts/kconfig/conf.c:231:6: warning: variable ‘type’ set but not used [-Wunused-but-set-variable]
 arch/arm/mach-msm/board-incrediblec.c:759: warning: 'set_h2w_dat' defined but not used
 arch/arm/mach-msm/board-incrediblec.c:764: warning: 'set_h2w_clk' defined but not used
 arch/arm/mach-msm/board-incrediblec.c:769: warning: 'get_h2w_dat' defined but not used

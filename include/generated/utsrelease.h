@@ -1,1 +1,1 @@
-#define UTS_RELEASE "2.6.35.10-gingertiny_083111+"
+#define UTS_RELEASE "2.6.35.10-gingertiny-090111+"

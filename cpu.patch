@@ -1,0 +1,106 @@
+*** arch/arm/mach-msm/acpuclock-scorpion.c	2011-09-01 19:08:39.714909409 -0400
+--- ../acpuclock-scorpion.c	2011-09-01 20:09:49.888097893 -0400
+***************
+*** 415,473 ****
+  #define CT_CSR_PHYS             0xA8700000
+  #define TCSR_SPARE2_ADDR        (ct_csr_base + 0x60)
+  
+- void __init acpu_freq_tbl_fixup(void)
+- {
+- 	void __iomem *ct_csr_base;
+- 	uint32_t tcsr_spare2;
+- 	unsigned int max_acpu_khz;
+- 	unsigned int i;
+- 
+- 	ct_csr_base = ioremap(CT_CSR_PHYS, PAGE_SIZE);
+- 	BUG_ON(ct_csr_base == NULL);
+- 
+- 	tcsr_spare2 = readl(TCSR_SPARE2_ADDR);
+- 
+- 	/* Check if the register is supported and meaningful. */
+- 	if ((tcsr_spare2 & 0xF000) != 0xA000) {
+- 		pr_info("Efuse data on Max ACPU freq not present.\n");
+- 		goto skip_efuse_fixup;
+- 	}
+- 
+- 	/* Override the fixup because we're overclocking */
+- 	max_acpu_khz = 1113600;
+- 
+- 	/*switch (tcsr_spare2 & 0xF0) {
+- 	case 0x70:
+- 		max_acpu_khz = 768000;
+- 		break;
+- 	case 0x30:
+- 	case 0x00:
+- 		max_acpu_khz = 998400;
+- 		break;
+- 	case 0x10:
+- 		max_acpu_khz = 1267200;
+- 		break;
+- 	default:
+- 		pr_warning("Invalid efuse data (%x) on Max ACPU freq!\n",
+- 			tcsr_spare2);
+- 		goto skip_efuse_fixup;
+- 	}*/
+- 
+- 	/*pr_info("Max ACPU freq from efuse data is %d KHz\n", max_acpu_khz);*/
+- 
+- 	for (i = 0; acpu_freq_tbl[i].acpu_khz != 0; i++) {
+- 		if (acpu_freq_tbl[i].acpu_khz > max_acpu_khz) {
+- 			acpu_freq_tbl[i].acpu_khz = 0;
+- 			break;
+- 		}
+- 	}
+- skip_efuse_fixup:
+- 	iounmap(ct_csr_base);
+- }
+  
+  static void __init acpuclk_init(void)
+  {
+! 	struct clkctl_acpu_speed *speed;
+  	unsigned init_khz;
+  
+  	init_khz = acpuclk_find_speed();
+--- 415,424 ----
+  #define CT_CSR_PHYS             0xA8700000
+  #define TCSR_SPARE2_ADDR        (ct_csr_base + 0x60)
+  
+  
+  static void __init acpuclk_init(void)
+  {
+! 	struct clkctl_acpu_speed *speed, *max_s;
+  	unsigned init_khz;
+  
+  	init_khz = acpuclk_find_speed();
+***************
+*** 520,527 ****
+  
+  	loops_per_jiffy = drv_state.current_speed->lpj;
+  
+! 	speed = acpu_freq_tbl + ARRAY_SIZE(acpu_freq_tbl) - 2;
+! 	max_axi_rate = speed->axiclk_khz * 1000;
+  }
+  
+  unsigned long acpuclk_get_max_axi_rate(void)
+--- 471,481 ----
+  
+  	loops_per_jiffy = drv_state.current_speed->lpj;
+  
+! 	for (speed = acpu_freq_tbl; speed->acpu_khz != 0; speed++)
+! 		;
+! 
+! 	max_s = speed - 1;
+! 	max_axi_rate = max_s->axiclk_khz * 1000;
+  }
+  
+  unsigned long acpuclk_get_max_axi_rate(void)
+***************
+*** 576,582 ****
+  	//if (clkdata->mpll_khz)
+  	//	acpu_mpll->acpu_khz = clkdata->mpll_khz;
+  
+- 	acpu_freq_tbl_fixup();
+  	acpuclk_init();
+  	acpuclk_init_cpufreq_table();
+  	drv_state.clk_ebi1 = clk_get(NULL,"ebi1_clk");
+--- 530,535 ----

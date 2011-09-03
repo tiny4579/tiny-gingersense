@@ -3324,6 +3324,7 @@
 0x00000000	__bitmap_subset	vmlinux	EXPORT_SYMBOL
 0x00000000	set_normalized_timespec	vmlinux	EXPORT_SYMBOL
 0x00000000	eth_type_trans	vmlinux	EXPORT_SYMBOL
+0x00000000	cpufreq_debug_printk	vmlinux	EXPORT_SYMBOL
 0x00000000	debugfs_create_blob	vmlinux	EXPORT_SYMBOL_GPL
 0x00000000	mb_cache_entry_get	vmlinux	EXPORT_SYMBOL
 0x00000000	vm_insert_mixed	vmlinux	EXPORT_SYMBOL

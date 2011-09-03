@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.35.10
- * Wed Aug 31 20:45:15 2011
+ * Thu Sep  1 21:53:32 2011
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_NF_CONNTRACK_H323 1
@@ -332,6 +332,7 @@
 #define CONFIG_FB_CFB_IMAGEBLIT 1
 #define CONFIG_ZLIB_DEFLATE 1
 #define CONFIG_YAFFS_FS 1
+#define CONFIG_MSM_CPU_FREQ_SET_MIN_MAX 1
 #define CONFIG_FW_LOADER 1
 #define CONFIG_KALLSYMS 1
 #define CONFIG_RTC_HCTOSYS_DEVICE "rtc0"
@@ -392,10 +393,12 @@
 #define CONFIG_USB_ANDROID_PROJECTOR 1
 #define CONFIG_BT_BNEP 1
 #define CONFIG_SERIAL_MSM_HS 1
+#define CONFIG_MSM_CPU_FREQ_MIN 128000
 #define CONFIG_AMP_TPA2018D1 1
 #define CONFIG_NF_NAT_NEEDED 1
 #define CONFIG_LOCKDEP_SUPPORT 1
 #define CONFIG_NO_HZ 1
+#define CONFIG_CPU_FREQ_DEBUG 1
 #define CONFIG_RTC_INTF_ALARM 1
 #define CONFIG_GENERIC_HARDIRQS_NO__DO_IRQ 1
 #define CONFIG_USB_ARCH_HAS_EHCI 1
@@ -435,14 +438,14 @@
 #define CONFIG_MSM_CAMERA 1
 #define CONFIG_DEBUG_KERNEL 1
 #define CONFIG_COMPAT_BRK 1
-#define CONFIG_LOCALVERSION "-gingertiny_083111"
+#define CONFIG_LOCALVERSION "-gingertiny-090111"
 #define CONFIG_CRYPTO 1
 #define CONFIG_SCHED_DEBUG 1
 #define CONFIG_LEDS_GPIO_PLATFORM 1
 #define CONFIG_SENSORS_AKM8973 1
 #define CONFIG_DEFAULT_MMAP_MIN_ADDR 32768
 #define CONFIG_IP_NF_IPTABLES 1
-#define CONFIG_CMDLINE "board_incrediblec.disable_uart3=0 board_incrediblec.usb_h2w_sw=0 board_incrediblec.disable_sdcard=0 diag.enabled=0 board_incrediblec.debug_uart=0 smisize=0 userdata_sel=1  androidboot.baseband=2.15.00.05.02 androidboot.cid=VZW__001 androidboot.carrier=COMMON androidboot.mid=PB3120000 androidboot.keycaps=qwerty androidboot.mode=normal androidboot.serialno=HT0C3HJ08393 androidboot.bootloader=0.92.0000 androidboot.hardware=inc no_console_suspend=1"
+#define CONFIG_CMDLINE "board_incrediblec.disable_uart3=0 board_incrediblec.usb_h2w_sw=0 board_incrediblec.disable_sdcard=0 diag.enabled=0 board_incrediblec.debug_uart=0 smisize=0 userdata_sel=1  androidboot.baseband=2.15.00.05.02 androidboot.cid=VZW__001 androidboot.carrier=COMMON androidboot.mid=PB3120000 androidboot.keycaps=qwerty androidboot.mode=normal androidboot.serialno=HT0C3HJ08393 androidboot.bootloader=0.92.0000 androidboot.hardware=inc no_console_suspend=1 cpufreq.debug=7"
 #define CONFIG_USB_ARCH_HAS_HCD 1
 #define CONFIG_IPV6_OPTIMISTIC_DAD 1
 #define CONFIG_ALIGNMENT_TRAP 1
@@ -507,6 +510,7 @@
 #define CONFIG_PPPOLAC 1
 #define CONFIG_IFB 1
 #define CONFIG_HAS_IOPORT 1
+#define CONFIG_MSM_CPU_FREQ_MAX 998400
 #define CONFIG_CGROUP_CPUACCT 1
 #define CONFIG_FB_EARLYSUSPEND 1
 #define CONFIG_HZ 100
