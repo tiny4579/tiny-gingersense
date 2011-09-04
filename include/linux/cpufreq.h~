@@ -79,7 +79,6 @@ struct cpufreq_real_policy {
 	unsigned int		min;    /* in kHz */
 	unsigned int		max;    /* in kHz */
         unsigned int		policy; /* see above */
-	unsigned int		vdd_levels; /* for CPU_FREQ_VDD_LEVELS */
 	struct cpufreq_governor	*governor; /* see below */
 };
 

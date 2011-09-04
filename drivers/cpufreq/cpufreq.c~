@@ -815,13 +815,6 @@ cpufreq_freq_attr_rw(scaling_min_freq);
 cpufreq_freq_attr_rw(scaling_max_freq);
 cpufreq_freq_attr_rw(scaling_governor);
 cpufreq_freq_attr_rw(scaling_setspeed);
-#ifdef CONFIG_CPU_FREQ_VDD_LEVELS
-#ifdef CONFIG_MSM_CPU_AVS
-cpufreq_freq_attr_rw(vdd_levels_havs);
-#else
-cpufreq_freq_attr_rw(vdd_levels);
-#endif // AVS
-#endif // VDD_LEVELS
 
 static struct attribute *default_attrs[] = {
 	&cpuinfo_min_freq.attr,

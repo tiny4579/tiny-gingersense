@@ -1457,15 +1457,6 @@ config MSM_QDSP6
 	help
 	  Enable support for qdsp6. This provides audio and video functionality.
 
-config MSM_CPU_AVS
-	bool "Enable Adaptive Voltage Scaling (AVS)"
-	depends on (ARCH_MSM_SCORPION && QSD_SVS)
-	default y
-	help
-	  This enables the Adaptive Voltage Scaling feature of
-	  Qualcomm ARMv7 CPUs. It adjusts the voltage for each frequency
-	  based on feedback from three ring oscillators in the CPU.
-
 config MSM8X60_AUDIO
 	tristate "MSM8X60 audio support"
 	depends on ARCH_MSM8X60 && ANDROID_PMEM
