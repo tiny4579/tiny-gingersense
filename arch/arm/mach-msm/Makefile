@@ -14,7 +14,6 @@ obj-$(CONFIG_ARCH_QSD8X50) += sirc.o
 obj-y += proc_comm.o
 obj-$(CONFIG_ARCH_MSM_ARM11) += acpuclock-arm11.o idle.o
 obj-$(CONFIG_ARCH_QSD8X50) += arch-init-scorpion.o acpuclock-scorpion.o
-obj-$(CONFIG_MSM_CPU_AVS) += avs.o avs_hw.o
 obj-$(CONFIG_ARCH_MSM7X30) += acpuclock-7x30.o internal_power_rail.o
 obj-$(CONFIG_ACPUCLOCK_DEBUG) += acpuclock_debug.o
 obj-$(CONFIG_ARCH_MSM7X30) += clock-7x30.o arch-init-7x30.o socinfo.o

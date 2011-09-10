@@ -1520,7 +1520,6 @@
 0x00000000	vmalloc	vmlinux	EXPORT_SYMBOL
 0x00000000	__raw_readsl	vmlinux	EXPORT_SYMBOL
 0x00000000	tty_port_raise_dtr_rts	vmlinux	EXPORT_SYMBOL
-0x00000000	tps65023_set_dcdc1_level	vmlinux	EXPORT_SYMBOL
 0x00000000	blk_queue_io_opt	vmlinux	EXPORT_SYMBOL
 0x00000000	ct_sip_parse_request	vmlinux	EXPORT_SYMBOL_GPL
 0x00000000	usb_is_connect_type_ready	vmlinux	EXPORT_SYMBOL
