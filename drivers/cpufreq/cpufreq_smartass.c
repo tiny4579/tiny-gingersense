@@ -62,6 +62,16 @@ static struct work_struct freq_scale_work;
 static cpumask_t work_cpumask;
 static unsigned int suspended;
 
+enum {
+	SMARTASS_DEBUG_JUMPS=1,
+	SMARTASS_DEBUG_LOAD=2
+};
+
+/*
+ * Combination of the above debug flags.
+ */
+static unsigned long debug_mask;
+
 /*
  * The minimum amount of time to spend at a frequency before we can ramp down,
  * default is 45ms.
@@ -145,6 +155,18 @@ struct cpufreq_governor cpufreq_gov_smartass = {
         .max_transition_latency = 9000000,
         .owner = THIS_MODULE,
 };
+
+static void smartass_update_min_max(struct smartass_info_s *this_smartass, struct cpufreq_policy *policy, int suspend) {
+	if (suspend) {
+		this_smartass->min_speed = policy->min;
+		this_smartass->max_speed = // sleep_max_freq; but make sure it obeys the policy min/max
+			policy->max > sleep_max_freq ? (sleep_max_freq > policy->min ? sleep_max_freq : policy->min) : policy->max;
+	} else {
+		this_smartass->min_speed = // awake_min_freq; but make sure it obeys the policy min/max
+			policy->min < awake_min_freq ? (awake_min_freq < policy->max ? awake_min_freq : policy->max) : policy->min;
+		this_smartass->max_speed = policy->max;
+	}
+}
 
 inline static unsigned int validate_freq(struct smartass_info_s *this_smartass, unsigned int freq) {
         if (freq > this_smartass->max_speed)
@@ -511,38 +533,50 @@ static struct attribute_group smartass_attr_group = {
         .name = "smartass",
 };
 
-static void smartass_suspend(struct smartass_info_s *this_smartass, struct cpufreq_policy *policy, int suspend) {
-	if (!suspend) {
-		this_smartass->max_speed = policy->max;
-	        this_smartass->min_speed = policy->min < awake_min_freq ? (awake_min_freq < policy->max ? awake_min_freq : policy->max) : policy->min;
-		__cpufreq_driver_target(policy, validate_freq(this_smartass,sleep_wakeup_freq), CPUFREQ_RELATION_H);
-        printk(KERN_INFO "CPU policy max set to %u\n",this_smartass->max_speed);
-	} else {
-        int new_freq;
-        this_smartass->min_speed = policy->min;
-        this_smartass->max_speed = policy->max > sleep_max_freq ? (sleep_max_freq > policy->min ? sleep_max_freq : policy->min) : policy->max;
-        printk(KERN_INFO "CPU policy max set to %u\n",this_smartass->max_speed);
-        if (policy->cur > this_smartass->max_speed) {
+static void smartass_suspend(int cpu, int suspend)
+{
+	struct smartass_info_s *this_smartass = &per_cpu(smartass_info, smp_processor_id());
+	struct cpufreq_policy *policy = this_smartass->cur_policy;
+	unsigned int new_freq;
+
+	if (!this_smartass->enable || sleep_max_freq==0) // disable behavior for sleep_max_freq==0
+		return;
+
+	smartass_update_min_max(this_smartass,policy,suspend);
+	if (suspend) {
+		if (policy->cur > this_smartass->max_speed) {
 			new_freq = this_smartass->max_speed;
-			__cpufreq_driver_target(policy, new_freq, CPUFREQ_RELATION_H);
+
+			if (debug_mask & SMARTASS_DEBUG_JUMPS)
+				printk(KERN_INFO "SmartassS: suspending at %d\n",new_freq);
+
+			__cpufreq_driver_target(policy, new_freq,
+						CPUFREQ_RELATION_H);
 		}
+	} else { // resume at max speed:
+		new_freq = validate_freq(this_smartass,sleep_wakeup_freq);
+
+		if (debug_mask & SMARTASS_DEBUG_JUMPS)
+			printk(KERN_INFO "SmartassS: awaking at %d\n",new_freq);
+
+		__cpufreq_driver_target(policy, new_freq,
+					CPUFREQ_RELATION_L);
 	}
 }
 
 static void smartass_early_suspend(struct early_suspend *handler) {
-	struct smartass_info_s *this_smartass = &per_cpu(smartass_info, smp_processor_id());
-	struct cpufreq_policy *policy = this_smartass->cur_policy;
+	int i;
 	suspended = 1;
-	smartass_suspend(this_smartass, policy, 1);
+	for_each_online_cpu(i)
+		smartass_suspend(i, 1);
 }
 
 static void smartass_late_resume(struct early_suspend *handler) {
-	struct smartass_info_s *this_smartass = &per_cpu(smartass_info, smp_processor_id());
-	struct cpufreq_policy *policy = this_smartass->cur_policy;
+	int i;
 	suspended = 0;
-	smartass_suspend(this_smartass, policy, 0);
+	for_each_online_cpu(i)
+		smartass_suspend(i, 0);
 }
-
 
 static int cpufreq_governor_smartass(struct cpufreq_policy *new_policy,
                 unsigned int event)
