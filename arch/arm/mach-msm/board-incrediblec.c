@@ -1163,6 +1163,7 @@ static struct curcial_oj_platform_data incrediblec_oj_data = {
 	.oj_adjust_xy = curcial_oj_adjust_xy,
 	.microp_version	= INCREDIBLEC_MICROP_VER,
 	.debugflag = 0,
+	.reset_pin = false,
 	.mdelay_time = 0,
 	.normal_th = 8,
 	.xy_ratio = 15,
@@ -1182,6 +1183,7 @@ static struct curcial_oj_platform_data incrediblec_oj_data = {
 	.pxsum_tbl = {0, 0, 40, 50, 60, 70},
 	.degree = 6,
 	.irq = MSM_uP_TO_INT(12),
+	.device_id = 0x0D,
 };
 
 static struct platform_device incrediblec_oj = {
