@@ -192,6 +192,11 @@
 
 #define INCREDIBLEC_GPIO_PS_HOLD	(25)
 
+/*Add undervolting*/
+#define INCREDIBLEC_MIN_UV_MV    (800)
+#define INCREDIBLEC_MAX_UV_MV    (1300)
+
+
 unsigned int incrediblec_get_engineerid(void);
 
 #endif /* __ARCH_ARM_MACH_MSM_BOARD_INCREDIBLEC_H */
